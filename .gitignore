@@ -1,0 +1,15 @@
+# Node
+node_modules/
+*.log
+frontend/.vite
+frontend/dist
+
+# Maven
+**/target/
+
+# IntelliJ / VSCode
+.idea/
+.vscode/
+
+# OS
+.DS_Store
