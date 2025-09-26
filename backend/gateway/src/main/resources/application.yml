@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: ai-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: ai-service
+          uri: lb://ai-service
+          predicates:
+            - Path=/api/conversation/**
+          filters:
+            - StripPrefix=1
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/api/users/**
+        - id: task-service
+          uri: lb://task-service
+          predicates:
+            - Path=/api/tasks/**
+
+higress:
+  enabled: true
+  upstream:
+    name: ai-gateway
+
+nacos:
+  discovery:
+    server-addr: 127.0.0.1:8848

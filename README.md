@@ -25,13 +25,18 @@ AI灵代码平台是一个基于大模型的智能代码辅助平台，用户可
 - **网关层**：通过 Higress 网关提供统一入口、鉴权与流控能力。
 
 ## 模块划分
-1. **ai-service**：对接 OpenAI API，负责提示词管理、模型调用与流式响应。
-2. **user-service**：用户管理、权限控制与会话记录。
-3. **task-service**：任务建模、进度跟踪与协作流程。
-4. **gateway**：基于 Higress 的网关层，提供鉴权、限流及监控。
-5. **frontend**：基于 Vue3 + TypeScript 的 Web 前端。
+项目已拆分为前端与多个 Spring Boot 微服务模块，目录结构如下：
 
-> 以上模块划分为规划设计，具体实现可根据实际业务需求调整。
+```
+frontend/          # Vue3 + TypeScript 工作台，集成 OpenAPI SDK 生成
+backend/
+  common/          # Redis、日志等通用配置
+  ai-service/      # LangChain4j + LangGraph4j 对话与代码生成服务
+  user-service/    # 用户、权限与会话管理
+  task-service/    # 任务编排与进度跟踪
+  gateway/         # Spring Cloud Gateway + Higress 统一入口
+docs/              # 架构文档
+```
 
 ## 快速开始
 1. 克隆项目代码仓库：
@@ -40,15 +45,16 @@ AI灵代码平台是一个基于大模型的智能代码辅助平台，用户可
    ```
 2. 安装前端依赖并启动开发服务器：
    ```bash
-   cd frontend
+    cd frontend
    pnpm install
+   pnpm run generate:sdk   # 基于 OpenAPI 文档生成 Axios SDK
    pnpm dev
    ```
 3. 启动后端各服务（示例使用 Docker Compose）：
    ```bash
-   docker compose up -d
+    docker compose up -d
    ```
-4. 配置 `.env` 或配置中心，填入 OpenAI API 密钥、Nacos 地址、数据库连接等参数。
+4. 配置 `.env` 或配置中心，填入 OpenAI API 密钥、Nacos 地址、数据库连接等参数。`frontend/.env.example` 提供了基础变量示例，后端各模块可通过 `application.yml` 配置 Nacos、Dubbo、Redis、Higress 等服务。
 
 ## 开发指南
 - 前端遵循组合式 API 与组件化设计，优先使用 TypeScript 类型定义。

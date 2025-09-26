@@ -1,0 +1,44 @@
+spring:
+  application:
+    name: ai-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/ai_lingdaima?useSSL=false&serverTimezone=UTC
+    username: root
+    password: root
+  redis:
+    host: localhost
+    port: 6379
+  cache:
+    type: redis
+
+mybatis-flex:
+  mapper-locations: classpath*:/mappers/*.xml
+
+langchain4j:
+  open-ai:
+    api-key: "+"
+    chat-model: gpt-4o-mini
+
+langgraph4j:
+  enabled: true
+
+caffeine:
+  spec: maximumSize=500,expireAfterWrite=10m
+
+dubbo:
+  application:
+    name: ai-service
+  registry:
+    address: nacos://127.0.0.1:8848
+  protocol:
+    name: tri
+    port: -1
+
+nacos:
+  discovery:
+    username: nacos
+    password: nacos
+
+higress:
+  gateway:
+    endpoint: http://localhost:9000
